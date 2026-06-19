@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RideMarket · OLX for rides</title>
+  <!-- Font & real icons (Font Awesome) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f5f5f5;
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+      color: #1e1e1e;
+    }
+
+    .card {
+      max-width: 1320px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 48px;
+      padding: 2.6rem 3rem;
+      box-shadow: 0 24px 48px -16px rgba(0,0,0,0.04), 0 4px 20px rgba(0,0,0,0.01);
+      transition: all 0.2s ease;
+      border: 1px solid rgba(0,0,0,0.02);
+    }
+
+    /* monochromatic minimalism */
+    h1, h2, h3, p {
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #ebebeb;
+      color: #1e1e1e;
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 0.2rem 0.9rem;
+      border-radius: 40px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border: 1px solid #d4d4d4;
+    }
+
+    .divider {
+      height: 1px;
+      width: 100%;
+      background: #e6e6e6;
+      margin: 2.2rem 0;
+    }
+
+    /* header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #111;
+    }
+    .logo i {
+      margin-right: 6px;
+      color: #1a1a1a;
+    }
+    .logo span {
+      font-weight: 300;
+      color: #4a4a4a;
+    }
+    .logo small {
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: #5a5a5a;
+      margin-left: 8px;
+      background: #f0f0f0;
+      padding: 0.1rem 0.8rem;
+      border-radius: 40px;
+      border: 1px solid #d9d9d9;
+    }
+
+    .tagline {
+      font-size: 0.85rem;
+      background: #f0f0f0;
+      padding: 0.3rem 1.4rem;
+      border-radius: 40px;
+      border: 1px solid #d9d9d9;
+      color: #2c2c2c;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .tagline i {
+      color: #3d3d3d;
+    }
+
+    /* toggle button */
+    .toggle-btn {
+      background: #1e1e1e;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.4rem;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid #2a2a2a;
+      letter-spacing: -0.01em;
+    }
+    .toggle-btn:hover {
+      background: #333;
+      transform: scale(1.01);
+    }
+    .toggle-btn i {
+      font-size: 0.9rem;
+    }
+
+    /* animation row — main flow */
+    .flow-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 0.6rem 0.4rem;
+      margin: 2.8rem 0 1.8rem;
+    }
+
+    .flow-step {
+      flex: 1 1 170px;
+      background: #fafafa;
+      border-radius: 32px;
+      padding: 1.8rem 0.8rem 1.8rem;
+      border: 1px solid #eaeaea;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+      animation: floatGlow 3.2s infinite alternate ease-in-out;
+    }
+    .flow-step:nth-child(2) { animation-delay: 0.15s; }
+    .flow-step:nth-child(3) { animation-delay: 0.3s; }
+    .flow-step:nth-child(4) { animation-delay: 0.45s; }
+    .flow-step:nth-child(5) { animation-delay: 0.6s; }
+
+    @keyframes floatGlow {
+      0% { transform: translateY(0px); background: #fafafa; border-color: #eaeaea; }
+      100% { transform: translateY(-6px); background: #ffffff; border-color: #c4c4c4; box-shadow: 0 16px 28px -12px rgba(0,0,0,0.04); }
+    }
+
+    .step-icon {
+      font-size: 2rem;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ebebeb;
+      border-radius: 60px;
+      color: #1e1e1e;
+      border: 1px solid #d0d0d0;
+      transition: 0.2s;
+      margin-bottom: 0.5rem;
+    }
+    .flow-step:hover .step-icon {
+      background: #d4d4d4;
+      border-color: #a0a0a0;
+      transform: scale(1.02);
+    }
+    .step-icon i {
+      font-size: 1.6rem;
+    }
+
+    .flow-step h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0.3rem 0 0.2rem;
+      color: #1a1a1a;
+    }
+    .flow-step p {
+      font-size: 0.78rem;
+      color: #3c3c3c;
+      line-height: 1.4;
+      max-width: 160px;
+      margin: 0 auto;
+      font-weight: 350;
+    }
+
+    .arrow-symbol {
+      color: #6a6a6a;
+      font-size: 1.2rem;
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      padding: 0 0.2rem;
+      opacity: 0.6;
+    }
+    .arrow-symbol i {
+      font-size: 1.2rem;
+    }
+
+    /* offer preview */
+    .offer-preview {
+      margin: 2.2rem 0 1.8rem;
+      background: #f4f4f4;
+      border-radius: 36px;
+      padding: 1.8rem 2.2rem;
+      border: 1px solid #e0e0e0;
+      animation: subtlePulse 3.6s infinite alternate;
+    }
+    @keyframes subtlePulse {
+      0% { background: #f4f4f4; border-color: #e0e0e0; }
+      100% { background: #fafafa; border-color: #c8c8c8; }
+    }
+
+    .offer-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem 1rem;
+    }
+
+    .offer-detail {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .offer-detail .label {
+      font-weight: 400;
+      color: #3a3a3a;
+      font-size: 0.85rem;
+      background: #eaeaea;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      border: 1px solid #d6d6d6;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .offer-detail .price-badge {
+      font-weight: 500;
+      background: #d9d9d9;
+      padding: 0.2rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      border: 1px solid #bebebe;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .driver-avatars {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .driver-chip {
+      background: white;
+      padding: 0.2rem 1rem 0.2rem 0.6rem;
+      border-radius: 60px;
+      border: 1px solid #d0d0d0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 450;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+      transition: 0.1s;
+    }
+    .driver-chip .circle {
+      width: 30px;
+      height: 30px;
+      background: #d0d0d0;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      font-size: 0.7rem;
+      color: #1e1e1e;
+    }
+    .driver-chip .amount {
+      font-weight: 500;
+      background: #ececec;
+      padding: 0.1rem 0.6rem;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .driver-chip.selected {
+      border: 1.5px solid #1e1e1e;
+      background: #f0f0f0;
+    }
+
+    .chat-preview {
+      margin-top: 1.8rem;
+      background: #fcfcfc;
+      border-radius: 28px;
+      padding: 1.2rem 1.8rem;
+      border: 1px solid #e3e3e3;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      animation: slideChat 4.2s infinite alternate;
+    }
+    @keyframes slideChat {
+      0% { opacity: 0.85; transform: translateX(-4px); }
+      100% { opacity: 1; transform: translateX(4px); }
+    }
+
+    .chat-message {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .chat-avatar {
+      background: #d4d4d4;
+      width: 36px;
+      height: 36px;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+    .chat-bubble {
+      background: #ececec;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      border: 1px solid #d6d6d6;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .chat-bubble i {
+      color: #3d3d3d;
+      font-size: 0.8rem;
+    }
+    .chat-meta {
+      font-size: 0.75rem;
+      color: #4f4f4f;
+      background: #eaeaea;
+      padding: 0.2rem 1.2rem;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* feature grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 1.8rem 0 1rem;
+    }
+    .feature-item {
+      background: #f7f7f7;
+      border-radius: 28px;
+      padding: 0.9rem 1rem;
+      border: 1px solid #e6e6e6;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #1e1e1e;
+      transition: 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .feature-item i {
+      font-size: 1rem;
+      color: #2c2c2c;
+    }
+
+    .revenue-badge {
+      background: #ececec;
+      border-radius: 60px;
+      padding: 0.2rem 1.4rem;
+      font-size: 0.75rem;
+      border: 1px solid #d2d2d2;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-note {
+      margin-top: 2rem;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: #3f3f3f;
+    }
+
+    .admin-badge {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .admin-badge span {
+      background: #ececec;
+      padding: 0.2rem 1.2rem;
+      border-radius: 40px;
+      border: 1px solid #d4d4d4;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    @media (max-width: 700px) {
+      .card { padding: 1.8rem; }
+      .flow-step { flex: 1 1 120px; }
+      .arrow-symbol { display: none; }
+      .offer-row { flex-direction: column; align-items: stretch; }
+    }
+
+    .text-mono {
+      font-weight: 300;
+      letter-spacing: -0.01em;
+    }
+    .flex {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .pill {
+      background: #e9e9e9;
+      border-radius: 60px;
+      padding: 0.1rem 1rem;
+      font-size: 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .no-payment {
+      background: #f1f1f1;
+      border-radius: 30px;
+      padding: 0.2rem 1.2rem;
+      font-size: 0.75rem;
+      border: 1px solid #d6d6d6;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .driver-offer-animation {
+      animation: driverPop 2.6s infinite alternate;
+    }
+    @keyframes driverPop {
+      0% { opacity: 0.7; transform: scale(0.97); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .mt-1 { margin-top: 0.4rem; }
+    .gap-2 { gap: 0.8rem; }
+
+    /* Roadmap styles */
+    .roadmap-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    .roadmap-content.active {
+      display: block;
+    }
+    .main-content {
+      display: block;
+    }
+    .main-content.hidden {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0.3; transform: translateY(6px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .roadmap-section {
+      margin: 2rem 0 1.5rem;
+    }
+    .roadmap-section h2 {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .roadmap-section h2 i {
+      color: #2c2c2c;
+    }
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin: 0.8rem 0;
+    }
+    .roadmap-card {
+      background: #f8f8f8;
+      border-radius: 24px;
+      padding: 1.2rem 1.4rem;
+      border: 1px solid #e6e6e6;
+    }
+    .roadmap-card h4 {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .roadmap-card ul {
+      list-style: none;
+      font-size: 0.78rem;
+      line-height: 1.8;
+      color: #2e2e2e;
+    }
+    .roadmap-card ul li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .roadmap-card ul li i {
+      opacity: 0.5;
+      width: 1.1rem;
+      font-size: 0.7rem;
+    }
+    .phase-badge {
+      background: #d9d9d9;
+      border-radius: 40px;
+      padding: 0.1rem 0.8rem;
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.6rem;
+      margin: 0.8rem 0;
+    }
+    .checklist-item {
+      background: #f2f2f2;
+      border-radius: 40px;
+      padding: 0.3rem 1rem;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid #e0e0e0;
+    }
+    .checklist-item i {
+      color: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+<div class="card" id="appCard">
+  <!-- header with toggle button -->
+  <div class="header">
+    <div class="logo">
+      <h1><i class="fas fa-car-side"></i> Ride<span>Market</span> <small><i class="far fa-handshake"></i> OLX for rides</small></h1>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
+      <div class="tagline">
+        <i class="fas fa-wallet"></i> no wallet · <i class="fas fa-percent"></i> no commission
+      </div>
+      <button class="toggle-btn" id="toggleBtn">
+        <i class="fas fa-code-branch"></i> <span id="toggleLabel">Roadmap</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT (original UI) -->
+  <div id="mainContent" class="main-content">
+    <!-- animated flow with real icons -->
+    <div class="flow-container">
+      <div class="flow-step">
+        <div class="step-icon"><i class="fas fa-map-pin"></i></div>
+        <h3>Passenger posts</h3>
+        <p>Pickup · dest · time · ₹150</p>
+        <span class="badge" style="margin-top:0.4rem;"><i class="fas fa-location-dot"></i> Kozhikode Beach → Railway</span>
+      </div>
+      <div class="arrow-symbol"><i class="fas fa-arrow-right"></i></div>
+
+      <div class="flow-step">
+        <div class="step-icon"><i class="fas fa-broadcast"></i></div>
+        <h3>Drivers see</h3>
+        <p>nearby requests</p>
+        <span class="badge" style="margin-top:0.4rem;"><i class="fas fa-users"></i> 3 drivers</span>
+      </div>
+      <div class="arrow-symbol"><i class="fas fa-arrow-right"></i></div>
+
+      <div class="flow-step">
+        <div class="step-icon"><i class="fas fa-comment-dollar"></i></div>
+        <h3>Send offers</h3>
+        <p>₹130 · ₹150 · ₹170</p>
+        <div class="flex" style="justify-content:center; margin-top:0.3rem;">
+          <span class="pill"><i class="fas fa-user"></i> Ajmal</span>
+          <span class="pill"><i class="fas fa-user"></i> Rahul</span>
+          <span class="pill"><i class="fas fa-user"></i> Nithin</span>
+        </div>
+      </div>
+      <div class="arrow-symbol"><i class="fas fa-arrow-right"></i></div>
+
+      <div class="flow-step">
+        <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+        <h3>Passenger chooses</h3>
+        <p>Rahul · ₹130</p>
+        <span class="badge" style="margin-top:0.4rem;"><i class="fas fa-comment"></i> chat opens</span>
+      </div>
+      <div class="arrow-symbol"><i class="fas fa-arrow-right"></i></div>
+
+      <div class="flow-step">
+        <div class="step-icon"><i class="fas fa-handshake"></i></div>
+        <h3>Ride done · pay direct</h3>
+        <p>Cash · UPI · any method</p>
+        <span class="badge" style="margin-top:0.4rem;"><i class="fas fa-circle-check"></i> no platform fee</span>
+      </div>
+    </div>
+
+    <!-- offer preview with real icons -->
+    <div class="offer-preview">
+      <div class="offer-row">
+        <div class="offer-detail">
+          <span class="label"><i class="fas fa-user"></i> Passenger</span>
+          <span style="font-weight:500;"><i class="fas fa-route"></i> Kozhikode Beach → Railway Station</span>
+          <span class="price-badge"><i class="fas fa-tag"></i> suggested ₹150</span>
+        </div>
+        <div class="driver-avatars driver-offer-animation">
+          <div class="driver-chip"><span class="circle"><i class="fas fa-user"></i></span> Ajmal <span class="amount"><i class="fas fa-rupee-sign"></i>150</span></div>
+          <div class="driver-chip selected"><span class="circle"><i class="fas fa-user-check"></i></span> Rahul <span class="amount"><i class="fas fa-rupee-sign"></i>130</span></div>
+          <div class="driver-chip"><span class="circle"><i class="fas fa-user"></i></span> Nithin <span class="amount"><i class="fas fa-rupee-sign"></i>170</span></div>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:flex-end; margin-top:0.8rem; gap:0.8rem; flex-wrap:wrap;">
+        <span class="no-payment"><i class="fas fa-hand-pointer"></i> passenger selects Rahul</span>
+        <span class="no-payment"><i class="fas fa-comment-dots"></i> chat opens</span>
+      </div>
+    </div>
+
+    <!-- chat preview with real icons -->
+    <div class="chat-preview">
+      <div class="chat-message">
+        <div class="chat-avatar"><i class="fas fa-user"></i></div>
+        <div class="chat-bubble"><i class="fas fa-user-circle"></i> <strong>Rahul:</strong> On my way, ETA 8 min</div>
+      </div>
+      <div class="chat-message">
+        <div class="chat-avatar"><i class="fas fa-user"></i></div>
+        <div class="chat-bubble" style="background:#e2e2e2;"><i class="fas fa-user-circle"></i> Passenger: perfect, see you</div>
+      </div>
+      <div class="chat-meta"><i class="fas fa-flag-checkered"></i> after ride · pay ₹130</div>
+    </div>
+
+    <!-- benefits & features with real icons -->
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:0.8rem; margin:1.6rem 0 0.2rem;">
+      <div class="flex">
+        <span class="badge"><i class="fas fa-check"></i> simpler build</span>
+        <span class="badge"><i class="fas fa-ban"></i> no payment gateway</span>
+        <span class="badge"><i class="fas fa-bolt"></i> faster launch</span>
+      </div>
+      <div class="revenue-badge"><i class="fas fa-coins"></i> revenue later: featured drivers · subscriptions</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- MVP features with real icons -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.2rem;">
+      <div>
+        <h3 style="font-weight:500; margin-bottom:0.3rem; font-size:0.9rem;"><i class="fas fa-user"></i> Passenger</h3>
+        <ul style="list-style:none; font-size:0.8rem; color:#2e2e2e; line-height:1.9;">
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Login</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Post ride</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> View offers</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Chat · profile</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Rate driver</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-weight:500; margin-bottom:0.3rem; font-size:0.9rem;"><i class="fas fa-car"></i> Driver</h3>
+        <ul style="list-style:none; font-size:0.8rem; color:#2e2e2e; line-height:1.9;">
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Login</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Browse rides</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Send offer</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Chat</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Mark complete</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-weight:500; margin-bottom:0.3rem; font-size:0.9rem;"><i class="fas fa-shield"></i> Admin</h3>
+        <ul style="list-style:none; font-size:0.8rem; color:#2e2e2e; line-height:1.9;">
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Verify drivers</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Handle reports</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Ban scammers</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-weight:500; margin-bottom:0.3rem; font-size:0.9rem;"><i class="fas fa-hand-holding-usd"></i> no platform money</h3>
+        <ul style="list-style:none; font-size:0.8rem; color:#2e2e2e; line-height:1.9;">
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Cash / UPI</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> No wallet</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> No fees</li>
+          <li><i class="fas fa-check-circle" style="opacity:0.5; width:1.2rem;"></i> Less regulatory</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- footer / admin & revenue with real icons -->
+    <div class="footer-note">
+      <div class="admin-badge">
+        <span><i class="fas fa-shield-alt"></i> admin: verify drivers</span>
+        <span><i class="fas fa-flag"></i> handle reports</span>
+        <span><i class="fas fa-star"></i> rate drivers</span>
+      </div>
+      <div style="display:flex; gap:0.5rem; align-items:center;">
+        <span class="pill"><i class="fas fa-crown"></i> featured profiles</span>
+        <span class="pill"><i class="fas fa-calendar-alt"></i> driver subscriptions</span>
+        <span class="pill"><i class="fas fa-ad"></i> local ads</span>
+      </div>
+    </div>
+
+    <!-- extra minimal note -->
+    <div style="margin-top: 1.8rem; border-top: 1px solid #ececec; padding-top: 1rem; display: flex; justify-content: center; gap: 1.8rem; flex-wrap: wrap; font-size:0.8rem; color:#3a3a3a;">
+      <span><i class="fas fa-hand-holding-heart"></i> passenger pays driver directly</span>
+      <span><i class="fas fa-ban" style="opacity:0.6;"></i> no money touches platform</span>
+      <span><i class="fas fa-store-alt"></i> ride marketplace / classifieds</span>
+    </div>
+  </div>
+
+  <!-- ROADMAP CONTENT (hidden by default) -->
+  <div id="roadmapContent" class="roadmap-content">
+    <div style="margin-bottom: 1.5rem;">
+      <h2 style="font-weight:600; font-size:1.5rem;"><i class="fas fa-road"></i> RIDE MARKETPLACE MVP</h2>
+      <p style="color:#3c3c3c; font-size:0.95rem; max-width:700px;">Complete Development Roadmap (0 → Launch) — Create a platform where passengers post rides and drivers compete with offers. No payment processing. No commissions. Marketplace only.</p>
+    </div>
+
+    <!-- Phase 0 -->
+    <div class="roadmap-section">
+      <h2><i class="fas fa-pencil-ruler"></i> PHASE 0 — PRODUCT DESIGN <span class="phase-badge">1 Day</span></h2>
+      <p style="color:#3c3c3c; font-size:0.85rem; margin-bottom:0.6rem;">Do not write code. Create user flow diagrams.</p>
+      <div class="roadmap-grid">
+        <div class="roadmap-card">
+          <h4><i class="fas fa-user"></i> Passenger Flow</h4>
+          <ul>
+            <li><i class="fas fa-chevron-right"></i> Open App → Login</li>
+            <li><i class="fas fa-chevron-right"></i> Create Ride</li>
+            <li><i class="fas fa-chevron-right"></i> Wait For Offers</li>
+            <li><i class="fas fa-chevron-right"></i> Select Driver</li>
+            <li><i class="fas fa-chevron-right"></i> Chat → Complete Ride</li>
+            <li><i class="fas fa-chevron-right"></i> Rate Driver</li>
+          </ul>
+        </div>
+        <div class="roadmap-card">
+          <h4><i class="fas fa-truck"></i> Driver Flow</h4>
+          <ul>
+            <li><i class="fas fa-chevron-right"></i> Open App → Login</li>
+            <li><i class="fas fa-chevron-right"></i> View Available Rides</li>
+            <li><i class="fas fa-chevron-right"></i> Send Offer</li>
+            <li><i class="fas fa-chevron-right"></i> Get Selected</li>
+            <li><i class="fas fa-chevron-right"></i> Chat → Complete Ride</li>
+            <li><i class="fas fa-chevron-right"></i> Receive Rating</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="roadmap-section">
+      <h2><i class="fas fa-sitemap"></i> PHASE 1 — SYSTEM ARCHITECTURE</h2>
+      <div class="roadmap-grid">
+        <div class="roadmap-card">
+          <h4><i class="fas fa-server"></i> Backend</h4>
+          <ul>
+            <li><i class="fas fa-folder"></i> /backend/src</li>
+            <li><i class="fas fa-folder"></i> /models /controllers /routes</li>
+            <li><i class="fas fa-folder"></i> /middlewares /services</li>
+            <li><i class="fas fa-folder"></i> /sockets /utils</li>
+          </ul>
+        </div>
+        <div class="roadmap-card">
+          <h4><i class="fas fa-mobile-alt"></i> Frontend</h4>
+          <ul>
+            <li><i class="fas fa-folder"></i> /mobile/src</li>
+            <li><i class="fas fa-folder"></i> /screens /components</li>
+            <li><i class="fas fa-folder"></i> /services /contexts</li>
+            <li><i class="fas fa-folder"></i> /navigation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2: Database -->
+    <div class="roadmap-section">
+      <h2><i class="fas fa-database"></i> PHASE 2 — DATABASE DESIGN</h2>
+      <div class="roadmap-grid">
+        <div class="roadmap-card">
+          <h4><i class="fas fa-users"></i> Users</h4>
+          <ul>
+            <li><i class="fas fa-id-card"></i> id, name, phone, role</li>
+            <li><i class="fas fa-image"></i> profilePhoto, rating</li>
+            <li><i class="fas fa-clock"></i> createdAt</li>
+            <li><i class="fas fa-search"></i> Indexes: phone, role</li>
+          </ul>
+        </div>
+        <div class="roadmap-card">
+          <h4><i class="fas fa-car"></i> Rides</h4>
+          <ul>
+            <li><i class="fas fa-user"></i> passengerId, pickup, destination</li>
+            <li><i class="fas fa-map-pin"></i> pickupCoordinates, notes</li>
+            <li><i class="fas fa-tag"></i> suggestedPrice, status</li>
+            <li><i class="fas fa-user-check"></i> selectedDriverId</li>
+            <li><i class="fas fa-clock"></i> createdAt</li>
+            <li><i class="fas fa-search"></i> Indexes: status, passengerId</li>
+          </ul>
+        </div>
+        <div class="roadmap-card">
+          <h4><i class="fas fa-gavel"></i> Bids</h4>
+          <ul>
+            <li><i class="fas fa-ticket-alt"></i> rideId, driverId</li>
+            <li><i class="fas fa-rupee-sign"></i> price, message</li>
+            <li><i class="fas fa-clock"></i> createdAt</li>
+            <li><i class="fas fa-search"></i> Index: rideId</li>
+          </ul>
+        </div>
+        <div class="roadmap-card">
+          <h4><i class="fas fa-comment-dots"></i> Messages</h4>
+          <ul>
+            <li><i class="fas fa-ticket-alt"></i> rideId, senderId</li>
+            <li><i class="fas fa-user"></i> receiverId, message</li>
+            <li><i class="fas fa-clock"></i> timestamp</li>
+            <li><i class="fas fa-search"></i> Index: rideId</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phases 3-18 condensed -->
+    <div class="roadmap-section">
+      <h2><i class="fas fa-code"></i> PHASE 3–18 · BACKEND, AUTH, REALTIME, DEPLOY</h2>
+      <div class="roadmap-grid">
+        <div class="roadmap-card"><h4><i class="fas fa-cogs"></i> Foundation</h4><ul><li><i class="fas fa-check"></i> Express, Mongoose, JWT</li><li><i class="fas fa-check"></i> Socket.IO, CORS, Dotenv</li><li><i class="fas fa-check"></i> Server + DB connection</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-lock"></i> Auth</h4><ul><li><i class="fas fa-user-plus"></i> Register (name, phone, role)</li><li><i class="fas fa-sign-in-alt"></i> Login (phone only, JWT)</li><li><i class="fas fa-shield-alt"></i> authMiddleware</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-id-card"></i> Profiles</h4><ul><li><i class="fas fa-user-edit"></i> Passenger: edit, photo, rating</li><li><i class="fas fa-truck"></i> Driver: vehicle, license, verification</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-plus-circle"></i> Ride Creation</h4><ul><li><i class="fas fa-map-pin"></i> Pickup, destination, notes</li><li><i class="fas fa-tag"></i> Suggested price</li><li><i class="fas fa-save"></i> POST /rides → status: pending</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-store"></i> Driver Marketplace</h4><ul><li><i class="fas fa-list"></i> GET /rides (pending only)</li><li><i class="fas fa-gavel"></i> Submit offer: POST /bids</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-check-double"></i> Offer Management</h4><ul><li><i class="fas fa-eye"></i> View all offers</li><li><i class="fas fa-check-circle"></i> Accept → status: accepted</li><li><i class="fas fa-lock"></i> Lock ride, no more offers</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-bolt"></i> Realtime</h4><ul><li><i class="fas fa-plug"></i> Socket.IO server</li><li><i class="fas fa-bell"></i> Events: newRide, newBid</li><li><i class="fas fa-comment"></i> rideAccepted, newMessage</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-comment"></i> Chat</h4><ul><li><i class="fas fa-save"></i> Messages stored in DB</li><li><i class="fas fa-exchange-alt"></i> Realtime via sockets</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-map-marked-alt"></i> Location</h4><ul><li><i class="fas fa-share-alt"></i> Passenger shares pickup</li><li><i class="fas fa-sync-alt"></i> Driver location every 5–10s</li><li><i class="fas fa-map"></i> OpenStreetMap (pickup first)</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-route"></i> Ride Lifecycle</h4><ul><li><i class="fas fa-hourglass-start"></i> Pending → Accepted</li><li><i class="fas fa-hourglass-half"></i> Driver Arrived → In Progress</li><li><i class="fas fa-flag-checkered"></i> Completed</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-star"></i> Rating</h4><ul><li><i class="fas fa-star"></i> Passenger rates driver (1–5)</li><li><i class="fas fa-star"></i> Driver rates passenger</li><li><i class="fas fa-chart-line"></i> Update average rating</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-bell"></i> Notifications</h4><ul><li><i class="fas fa-fire"></i> Push: new offer, accepted, message</li><li><i class="fas fa-cloud"></i> Firebase Cloud Messaging (later)</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-user-shield"></i> Admin Panel</h4><ul><li><i class="fas fa-users-cog"></i> View users, suspend</li><li><i class="fas fa-id-card"></i> Verify drivers</li><li><i class="fas fa-ban"></i> Ban fake drivers</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-lock"></i> Security</h4><ul><li><i class="fas fa-stopwatch"></i> Rate limiting</li><li><i class="fas fa-check-circle"></i> JWT validation</li><li><i class="fas fa-filter"></i> Input sanitization</li><li><i class="fas fa-ban"></i> Prevent spam bids</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-vial"></i> Testing</h4><ul><li><i class="fas fa-check"></i> Test every flow</li><li><i class="fas fa-bug"></i> Bug list → fix critical</li></ul></div>
+        <div class="roadmap-card"><h4><i class="fas fa-rocket"></i> Deployment</h4><ul><li><i class="fas fa-cloud"></i> Backend: Render / Railway</li><li><i class="fas fa-database"></i> MongoDB Atlas</li><li><i class="fas fa-android"></i> Android APK (internal)</li></ul></div>
+      </div>
+    </div>
+
+    <!-- MVP Launch Checklist -->
+    <div class="roadmap-section">
+      <h2><i class="fas fa-clipboard-check"></i> MVP LAUNCH CHECKLIST</h2>
+      <div class="checklist-grid">
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> User Registration</div>
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> Login</div>
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> Passenger Dashboard</div>
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> Driver Dashboard</div>
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> Ride Creation</div>
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> Ride Listing</div>
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> Bidding</div>
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> Offer Acceptance</div>
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> Chat</div>
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> Ratings</div>
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> Driver Verification</div>
+        <div class="checklist-item"><i class="fas fa-check-circle"></i> Admin Panel</div>
+      </div>
+      <div style="margin-top: 1rem; background: #f2f2f2; border-radius: 28px; padding: 0.8rem 1.5rem; border: 1px solid #ddd;">
+        <p style="font-size:0.8rem; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+          <i class="fas fa-ban" style="color:#1e1e1e;"></i> <strong>DO NOT BUILD:</strong> Wallet · Payments · Coupons · Referrals · Subscriptions · AI Pricing · Surge Pricing · Promo Codes
+        </p>
+        <p style="font-size:0.8rem; margin-top:0.3rem;"><i class="fas fa-bullseye"></i> Build the smallest working marketplace first.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const mainContent = document.getElementById('mainContent');
+    const roadmapContent = document.getElementById('roadmapContent');
+    const toggleBtn = document.getElementById('toggleBtn');
+    const toggleLabel = document.getElementById('toggleLabel');
+
+    let showingRoadmap = false;
+
+    toggleBtn.addEventListener('click', function() {
+      showingRoadmap = !showingRoadmap;
+      if (showingRoadmap) {
+        mainContent.classList.add('hidden');
+        roadmapContent.classList.add('active');
+        toggleLabel.textContent = 'Main UI';
+        toggleBtn.innerHTML = '<i class="fas fa-arrow-left"></i> <span id="toggleLabel">Main UI</span>';
+        // re-query label after innerHTML change
+        document.getElementById('toggleLabel').textContent = 'Main UI';
+      } else {
+        mainContent.classList.remove('hidden');
+        roadmapContent.classList.remove('active');
+        toggleBtn.innerHTML = '<i class="fas fa-code-branch"></i> <span id="toggleLabel">Roadmap</span>';
+        document.getElementById('toggleLabel').textContent = 'Roadmap';
+      }
+    });
+  })();
+</script>
+</body>
+</html>
